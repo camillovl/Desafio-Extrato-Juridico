@@ -2,13 +2,13 @@ import { StatusBar } from "expo-status-bar";
 import { StyleSheet, View } from "react-native";
 import Constants from 'expo-constants';
 
-import Email from "../components/Email";
+import Cep from "../components/Cep";
 
-export default function Email_screen({ navigation }) {
+export default function Cep_screen({ navigation }) {
     return (
         <View style={styles.container}>
             <StatusBar style='auto' />
-            <Email navigation={navigation} />
+            <Cep navigation={navigation} />
         </View>
     )
 }

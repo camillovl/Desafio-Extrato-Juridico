@@ -1,7 +1,8 @@
 import { StatusBar } from 'expo-status-bar';
-import { DatePickerAndroid, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import Constants from 'expo-constants';
+import { connect } from 'react-redux';
 
 export default function Name({ navigation }) {
     return (
@@ -17,7 +18,7 @@ export default function Name({ navigation }) {
             <View style={styles.name_input_container}>
                 <TextInput style={styles.name_input} label="Full Name" placeholder="Ex: João Mateus"></TextInput>
             </View>
-            <TouchableOpacity style={styles.SubmitButtom} >
+            <TouchableOpacity style={styles.SubmitButtom} onPress={() => navigation.navigate('Email_screen')} >
                 <Text style={styles.SubmitButtom_Text} >Continuar</Text>
             </TouchableOpacity>
         </View>
@@ -58,7 +59,7 @@ const styles = StyleSheet.create({
         height: 50,
         marginHorizontal: 10,
         marginTop: 12,
-        borderWidth: 4,
+        borderWidth: 2,
         borderColor: 'grey',
         borderRadius: 30,
     },

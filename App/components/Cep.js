@@ -1,23 +1,29 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import React, { useState } from 'react';
+import { StyleSheet, Text, TouchableOpacity, View, Button } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import Constants from 'expo-constants';
+import { useState } from 'react';
 
-export default function Email({ navigation }) {
+export default function Cep({ navigation }) {
 
-    const [email, setEmail] = useState("")
-    const [checkValidEmail, setCheckValidEmail] = useState(false)
+    const [cep, setCep] = useState('');
 
-    const handleCheckEmail = (text) => {
-        let regex = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-
-        setEmail(text)
-        if (regex.test(text)) {
-            setCheckValidEmail(false)
-        } else {
-            setCheckValidEmail(true)
-        }
+    async function handleApi() {
+        await fetch(`https://ws.apicep.com/cep.json?code=${cep}`).
+            then((res) =>
+                res.json().then((json) => {
+                    if (json.ok === true) {
+                        navigation.navigate('Final_screen', {
+                            endereco: json.address,
+                            estado: json.state,
+                            bairro: json.district,
+                            cidade: json.city,
+                        });
+                    } else {
+                        alert('CEP inexistente');
+                    }
+                })
+            );
     }
 
     return (
@@ -26,16 +32,18 @@ export default function Email({ navigation }) {
             <View style={styles.title_container}>
                 <Text style={styles.title_text_container}>Simple Form</Text>
             </View>
-            <View style={styles.email_container}>
-                <Text style={styles.email_container_text}>Your Email: </Text>
+            <View style={styles.border_container}></View>
+            <View style={styles.name_container}>
+                <Text style={styles.name_container_text}>Your adress: </Text>
             </View>
-            <View style={styles.email_input_container}>
-                <TextInput style={styles.email_input} placeholder="Ex: JoãoMateus@gmail.com" value={email} onChangeText={(text) => handleCheckEmail(text)} />
-                {checkValidEmail ? <Text style={styles.textoFalhou}>Formato de Email não é valido</Text> : <Text style={styles.textoFalhou}></Text>}
+
+            <View style={styles.name_input_container}>
+                <TextInput style={styles.name_input} placeholder="Cep" onChangeText={(t) => setCep(t)}> </TextInput>
             </View>
-            <TouchableOpacity style={styles.SubmitButtom} >
+
+            <Button title='Buscar Cep' style={styles.SubmitButtom} onPress={handleApi}>
                 <Text style={styles.SubmitButtom_Text} >Continuar</Text>
-            </TouchableOpacity>
+            </Button>
         </View>
     );
 }
@@ -60,34 +68,29 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
 
     },
-    email_container: {
+    name_container: {
         marginHorizontal: 35,
-        marginTop: 30,
-        marginBottom: 10,
+        marginTop: 40,
+
     },
-    email_container_text: {
+    name_container_text: {
         fontSize: 16,
+
     },
-    email_input_container: {
+    name_input_container: {
         justifyContent: 'center',
         height: 50,
-        marginHorizontal: 15,
+        marginHorizontal: 10,
+        marginTop: 12,
         borderWidth: 2,
         borderColor: 'grey',
         borderRadius: 30,
     },
-    email_input: {
+    name_input: {
         marginLeft: 20,
-        marginTop: 25,
-    },
-    textoFalhou: {
-        marginLeft: 150,
-        marginTop: 20,
-        color: 'red',
-        fontSize: 14,
     },
     SubmitButtom: {
-        marginTop: 40,
+        marginTop: 30,
         height: 50,
         marginHorizontal: 50,
         borderRadius: 20,

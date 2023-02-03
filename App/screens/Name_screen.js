@@ -2,7 +2,7 @@ import { StatusBar } from "expo-status-bar";
 import { StyleSheet, View } from "react-native";
 import Constants from 'expo-constants';
 
-import Name from "../components/Name";
+import Name from 'C:/Users/Camillo/Documents/Mobile Projects/Desafio-Extrato-Judiciario/Simple_Form/App/components/Name.js';
 
 export default function Name_screen({ navigation }) {
     return (
